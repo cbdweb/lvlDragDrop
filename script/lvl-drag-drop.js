@@ -15,8 +15,8 @@ module.directive('lvlDraggable', ['$rootScope', 'uuid', function ($rootScope, uu
             console.log(id);
             el.bind("dragstart", function (e) {
                 e.originalEvent.dataTransfer.setData('text', id);
-                console.log('drag');
-                $rootScope.$emit("LVL-DRAG-START");
+                console.log('drag: ' + e.originalEvent.dataTransfer.dropEffect );
+                $rootScope.$emit("LVL-DRAG-START", {el: el[0]} ); // cbdweb added argument to discover ID of dragged element
             });
 
             el.bind("dragend", function (e) {
@@ -87,7 +87,6 @@ module.directive('lvlDropTarget', ['$rootScope', 'uuid', function ($rootScope, u
                 var el = document.getElementById(id);
                 angular.element(el).removeClass("lvl-target");
                 angular.element(el).removeClass("lvl-over");
-                
                 scope.onEnd();
             });
         }
